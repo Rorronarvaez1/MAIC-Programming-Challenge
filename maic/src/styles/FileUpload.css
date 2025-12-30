@@ -20,8 +20,8 @@
 }
 
 .upload-area.active {
-  border-color: #667eea;
-  background-color: #f0f4ff;
+  border-color: #3B82F6;
+  background-color: #eff6ff;
 }
 
 .upload-area.loading {
@@ -40,7 +40,7 @@
 .upload-icon {
   width: 56px;
   height: 56px;
-  color: #667eea;
+  color: #3B82F6;
   margin-bottom: 12px;
 }
 
@@ -73,7 +73,7 @@
 .upload-button {
   display: inline-block;
   padding: 12px 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -81,12 +81,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
 
 .upload-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
 .upload-button:active {
@@ -118,7 +118,7 @@
 .file-item-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -195,9 +195,9 @@
 }
 
 .btn-add-file:hover {
-  border-color: #667eea;
-  color: #667eea;
-  background: #f0f4ff;
+  border-color: #3B82F6;
+  color: #3B82F6;
+  background: #eff6ff;
 }
 
 /* File Info Card */
@@ -209,7 +209,7 @@
 }
 
 .file-info-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
   color: white;
   padding: 16px 20px;
   display: flex;
@@ -256,7 +256,7 @@
 .btn-analyze {
   flex: 1;
   padding: 12px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -264,12 +264,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
 
 .btn-analyze:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
 .btn-analyze:disabled {
@@ -290,7 +290,7 @@
   width: 48px;
   height: 48px;
   border: 3px solid #e5e7eb;
-  border-top: 3px solid #667eea;
+  border-top: 3px solid #3B82F6;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
