@@ -1,0 +1,261 @@
+.file-upload-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.upload-area {
+  border: 2px dashed #e5e7eb;
+  border-radius: 8px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.upload-area:hover {
+  border-color: #9ca3af;
+  background-color: #f9fafb;
+}
+
+.upload-area.active {
+  border-color: #667eea;
+  background-color: #f0f4ff;
+}
+
+.upload-area.loading {
+  border-color: #e5e7eb;
+  background-color: #ffffff;
+  cursor: not-allowed;
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-icon {
+  width: 56px;
+  height: 56px;
+  color: #667eea;
+  margin-bottom: 12px;
+}
+
+.upload-area h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 12px 0 0 0;
+}
+
+.main-text {
+  font-size: 15px;
+  color: #6b7280;
+  margin: 12px 0 8px 0;
+}
+
+.sub-text {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0 0 20px 0;
+}
+
+.file-name {
+  font-size: 13px;
+  color: #10b981;
+  font-weight: 500;
+  margin: 4px 0 0 0;
+}
+
+.upload-button {
+  display: inline-block;
+  padding: 12px 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.upload-button:active {
+  transform: translateY(0);
+}
+
+/* File Info Card */
+.file-info-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.file-info-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px 20px;
+}
+
+.file-info-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.file-info-content {
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.file-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.file-icon svg {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+.file-details {
+  flex: 1;
+}
+
+.file-details .file-name {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  word-break: break-word;
+}
+
+.file-details .file-meta {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.file-actions {
+  padding: 16px 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-analyze,
+.btn-clear {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.btn-analyze {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-analyze:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-analyze:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-clear {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-clear:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.btn-clear:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner p {
+  margin: 0;
+  font-size: 14px;
+  color: #111827;
+}
+
+.spinner-text {
+  font-size: 13px !important;
+  color: #9ca3af !important;
+}
+
+@media (max-width: 768px) {
+  .file-info-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .file-actions {
+    flex-direction: column;
+  }
+
+  .btn-analyze,
+  .btn-clear {
+    width: 100%;
+  }
+}

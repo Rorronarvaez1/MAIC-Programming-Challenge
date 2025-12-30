@@ -1,0 +1,81 @@
+{
+  "example_upload_response": {
+    "suggestions": [
+      {
+        "title": "Total Sales by Product Category",
+        "chart_type": "bar",
+        "parameters": {
+          "x_axis": "Category",
+          "y_axis": "Total_Sales"
+        },
+        "insight": "Electronics leads the market with 45% of total sales, followed by Home & Garden at 28%. This indicates strong consumer demand for tech products."
+      },
+      {
+        "title": "Revenue Trend Over Time",
+        "chart_type": "line",
+        "parameters": {
+          "x_axis": "Month",
+          "y_axis": "Revenue"
+        },
+        "insight": "Revenue shows a consistent upward trend from January to December, with a notable spike in Q4. This suggests seasonal buying patterns in the last quarter."
+      },
+      {
+        "title": "Market Share Distribution",
+        "chart_type": "pie",
+        "parameters": {
+          "x_axis": "Company",
+          "y_axis": "Market_Share"
+        },
+        "insight": "Your company holds 32% of the market, competing closely with three other major players. There's opportunity to increase market share by 5-10% through targeted campaigns."
+      },
+      {
+        "title": "Customer Spending vs Age Group",
+        "chart_type": "scatter",
+        "parameters": {
+          "x_axis": "Age",
+          "y_axis": "Average_Spending"
+        },
+        "insight": "There's a positive correlation between customer age and spending patterns, with customers aged 35-55 showing the highest average purchase values."
+      }
+    ]
+  },
+
+  "example_chart_data_response": [
+    {
+      "Category": "Electronics",
+      "Total_Sales": 450000
+    },
+    {
+      "Category": "Home & Garden",
+      "Total_Sales": 280000
+    },
+    {
+      "Category": "Fashion",
+      "Total_Sales": 195000
+    },
+    {
+      "Category": "Food & Beverage",
+      "Total_Sales": 75000
+    }
+  ],
+
+  "notes": {
+    "upload_endpoint": "POST /api/upload",
+    "request_format": "multipart/form-data with 'file' field",
+    "chart_data_endpoint": "POST /api/chart-data",
+    "chart_data_request": {
+      "parameters": {
+        "x_axis": "column_name",
+        "y_axis": "column_name"
+      }
+    },
+    "response_format": "JSON array of objects where keys match x_axis and y_axis parameter names",
+    "supported_chart_types": [
+      "bar",
+      "line",
+      "pie",
+      "scatter"
+    ],
+    "important": "Chart type names must be lowercase and match the supported types above"
+  }
+}
