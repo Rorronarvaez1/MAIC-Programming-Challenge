@@ -118,38 +118,81 @@ export const Dashboard = ({ selectedCharts, onRemoveChart }) => {
     }
   };
 
-  if (selectedCharts.length === 0) {
-    return (
-      <div className="empty-dashboard">
-        <p>Aún no hay gráficos agregados. Cargue un archivo y seleccione gráficos para comenzar.</p>
-      </div>
-    );
-  }
+  const hasCharts = selectedCharts.length > 0;
 
   return (
     <div className="dashboard-container">
       <h2>Su panel</h2>
       <div className="charts-grid">
-        {selectedCharts.map((chart, index) => (
-          <div key={index} className="chart-card">
-            <div className="chart-header">
-              <h3>{chart.title}</h3>
-              <button
-                className="remove-btn"
-                onClick={() => onRemoveChart(index)}
-                title="Remover gráfico"
-              >
-                ✕
-              </button>
+        {hasCharts ? (
+          selectedCharts.map((chart, index) => (
+            <div key={index} className="chart-card">
+              <div className="chart-header">
+                <h3>{chart.title}</h3>
+                <button
+                  className="remove-btn"
+                  onClick={() => onRemoveChart(index)}
+                  title="Remover gráfico"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="chart-body">
+                {renderChart(chart, chartDataMap[index], index)}
+              </div>
+              <div className="chart-footer">
+                <p className="chart-insight">{chart.insight}</p>
+              </div>
             </div>
-            <div className="chart-body">
-              {renderChart(chart, chartDataMap[index], index)}
+          ))
+        ) : (
+          <>
+            <div className="chart-card placeholder-card">
+              <div className="chart-header placeholder-header">
+                <h3>Gráfico de ejemplo 1</h3>
+              </div>
+              <div className="chart-body placeholder-body">
+                <div className="placeholder-chart"></div>
+              </div>
+              <div className="chart-footer">
+                <p className="chart-insight">Selecciona gráficos de las sugerencias para visualizarlos aquí</p>
+              </div>
             </div>
-            <div className="chart-footer">
-              <p className="chart-insight">{chart.insight}</p>
+            <div className="chart-card placeholder-card">
+              <div className="chart-header placeholder-header">
+                <h3>Gráfico de ejemplo 2</h3>
+              </div>
+              <div className="chart-body placeholder-body">
+                <div className="placeholder-chart"></div>
+              </div>
+              <div className="chart-footer">
+                <p className="chart-insight">Los gráficos se mostrarán en tiempo real</p>
+              </div>
             </div>
-          </div>
-        ))}
+            <div className="chart-card placeholder-card">
+              <div className="chart-header placeholder-header">
+                <h3>Gráfico de ejemplo 3</h3>
+              </div>
+              <div className="chart-body placeholder-body">
+                <div className="placeholder-chart"></div>
+              </div>
+              <div className="chart-footer">
+                <p className="chart-insight">Comienza cargando tu archivo de datos</p>
+              </div>
+            </div>
+            <div className="chart-card placeholder-card">
+              <div className="chart-header placeholder-header">
+                <h3>Gráfico de ejemplo 4</h3>
+              </div>
+              <div className="chart-body placeholder-body">
+                <div className="placeholder-chart"></div>
+              </div>
+              <div className="chart-footer">
+                <p className="chart-insight">Obtén insights automáticos de tus datos</p>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

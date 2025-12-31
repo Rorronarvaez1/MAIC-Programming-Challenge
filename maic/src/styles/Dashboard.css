@@ -108,6 +108,58 @@
   font-size: 16px;
 }
 
+.placeholder-card {
+  opacity: 0.65;
+  background: white;
+}
+
+.placeholder-header {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: white;
+}
+
+.placeholder-header h3 {
+  color: white;
+}
+
+.placeholder-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.placeholder-chart {
+  width: 80%;
+  height: 80%;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-chart::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 12%;
+  height: 60%;
+  background: linear-gradient(180deg, #d1d5db 0%, #9ca3af 100%);
+  border-radius: 4px;
+}
+
+.placeholder-chart::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  width: 60%;
+  height: 2px;
+  background: #d1d5db;
+  box-shadow: 0 15px 0 #d1d5db, 0 30px 0 #d1d5db, 0 45px 0 #d1d5db;
+}
+
 @media (max-width: 1024px) {
   .charts-grid {
     grid-template-columns: 1fr;

@@ -67,58 +67,36 @@ function App() {
       </header>
 
       <main className="app-main">
-        {currentStep === 'upload' && (
-          <section className="section">
+        <div className="app-content">
+          <section className="section upload-section">
             <FileUpload onUpload={handleFileUpload} isLoading={isLoading} />
           </section>
-        )}
 
-        {currentStep === 'analyze' && suggestions.length > 0 && (
-          <section className="section">
-            <AnalysisCards
-              suggestions={suggestions}
-              onAddChart={handleAddChart}
-            />
-          </section>
-        )}
+          {suggestions.length > 0 && currentStep === 'analyze' && (
+            <section className="section analysis-section">
+              <AnalysisCards
+                suggestions={suggestions}
+                onAddChart={handleAddChart}
+              />
+            </section>
+          )}
 
-        {currentStep === 'dashboard' && selectedCharts.length > 0 && (
-          <section className="section">
+          <section className="section dashboard-section">
             <Dashboard
               selectedCharts={selectedCharts}
               onRemoveChart={handleRemoveChart}
             />
           </section>
-        )}
+        </div>
 
         {selectedCharts.length > 0 && (
-          <section className="section">
-            <Dashboard
-              selectedCharts={selectedCharts}
-              onRemoveChart={handleRemoveChart}
-            />
-          </section>
-        )}
-
-        {suggestions.length > 0 && currentStep === 'analyze' && (
-          <section className="section">
-            <AnalysisCards
-              suggestions={suggestions}
-              onAddChart={handleAddChart}
-            />
-          </section>
-        )}
-
-        {selectedCharts.length > 0 && (
-          <div className="action-buttons">
+          <section className="action-buttons">
             <button className="reset-btn" onClick={handleStartOver}>
               Cargar nuevo archivo
             </button>
-          </div>
+          </section>
         )}
       </main>
-
-
     </div>
   );
 }
