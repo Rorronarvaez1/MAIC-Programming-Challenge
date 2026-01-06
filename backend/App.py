@@ -5,7 +5,7 @@ Utiliza Flask + Google Gemini con Structured Outputs
 
 import os
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import pandas as pd
@@ -17,12 +17,27 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+# Determinar si estamos en producción
+STATIC_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+
+app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path='')
 CORS(app)
 
 ALLOWED_EXTENSIONS = {'xlsx', 'csv'}
-client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 current_dataframe = {}
+
+# Cliente Gemini - inicialización lazy para evitar errores al cargar
+_genai_client = None
+
+def get_genai_client():
+    """Obtiene el cliente de Gemini, inicializándolo si es necesario"""
+    global _genai_client
+    if _genai_client is None:
+        api_key = os.getenv('GEMINI_API_KEY')
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY no está configurada. Configúrala como variable de entorno.")
+        _genai_client = genai.Client(api_key=api_key)
+    return _genai_client
 
 
 # Modelos 
@@ -149,7 +164,6 @@ Genera las sugerencias más útiles e interesantes para un analista de negocios.
     return prompt
 
 
-
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
     """
@@ -167,6 +181,9 @@ def upload_file():
         return jsonify({"error": "No se seleccionaron archivos"}), 400
     
     try:
+        # Obtener cliente de Gemini
+        client = get_genai_client()
+        
         all_dataframes = []
         validated_suggestions = []
         
@@ -239,6 +256,10 @@ def upload_file():
             }
         })
         
+    except ValueError as e:
+        # Error de configuración (API key faltante)
+        print(f"Error de configuración: {str(e)}")
+        return jsonify({"error": str(e)}), 500
     except Exception as e:
         print(f"Error procesando archivo: {str(e)}")
         return jsonify({"error": f"Error procesando el archivo: {str(e)}"}), 500
@@ -300,17 +321,32 @@ def get_chart_data():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Endpoint para verificar que el servidor está funcionando"""
+    api_key_configured = bool(os.getenv('GEMINI_API_KEY'))
     return jsonify({
         "status": "ok",
-        "message": "Servidor funcionando correctamente"
+        "message": "Servidor funcionando correctamente",
+        "gemini_api_key_configured": api_key_configured
     })
 
+
+# Servir React frontend
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    """Sirve la aplicación React desde la carpeta static"""
+    static_folder = app.static_folder or STATIC_FOLDER
+    if path != "" and os.path.exists(os.path.join(static_folder, path)):
+        return send_from_directory(static_folder, path)
+    else:
+        return send_from_directory(static_folder, 'index.html')
 
 
 if __name__ == '__main__':
     if not os.getenv('GEMINI_API_KEY'):
         print("⚠️  ADVERTENCIA: GEMINI_API_KEY no está configurada")
         print("   Crea un archivo .env con tu API key de Gemini")
+    else:
+        print("✅ GEMINI_API_KEY configurada correctamente")
     
     print("🚀 Iniciando servidor en http://localhost:5000")
     app.run(debug=True, port=5000)

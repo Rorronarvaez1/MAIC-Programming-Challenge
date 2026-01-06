@@ -23,7 +23,7 @@ export const Dashboard = ({ selectedCharts, onRemoveChart }) => {
   const fetchChartData = async (chart, index) => {
     setLoadingCharts(prev => new Set([...prev, index]));
     try {
-      const response = await axios.post('http://localhost:5000/api/chart-data', {
+      const response = await axios.post('/api/chart-data', {
         parameters: {
           x_axis: chart.parameters.x_axis,
           y_axis: chart.parameters.y_axis,
