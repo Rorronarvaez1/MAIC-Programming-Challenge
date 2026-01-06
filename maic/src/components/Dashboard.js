@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import axios from 'axios';
 import '../styles/Dashboard.css';
-import API_URL from './config';
+import API_URL from '../config';
 
 const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
 
