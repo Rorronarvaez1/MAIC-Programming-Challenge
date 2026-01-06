@@ -4,10 +4,12 @@
 }
 
 .dashboard-container h2 {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
-  color: white;
+  color: #1D4ED8;
   margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid #3B82F6;
 }
 
 .charts-grid {
@@ -89,16 +91,7 @@
 }
 
 .chart-footer {
-  padding: 16px 20px;
-  border-top: 1px solid #f0f0f0;
-  background: white;
-}
-
-.chart-insight {
-  margin: 0;
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.6;
+  display: none;
 }
 
 .empty-dashboard {

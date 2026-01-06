@@ -83,14 +83,16 @@ export const FileUpload = ({ onUpload, isLoading }) => {
   };
 
   return (
-    <div className="file-upload-container">
+    <div 
+      className="file-upload-container"
+      onDragEnter={handleDrag}
+      onDragLeave={handleDrag}
+      onDragOver={handleDrag}
+      onDrop={handleDrop}
+    >
       {selectedFiles.length === 0 ? (
         <div
           className={`upload-area ${dragActive ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
-          onDragEnter={handleDrag}
-          onDragLeave={handleDrag}
-          onDragOver={handleDrag}
-          onDrop={handleDrop}
         >
           <div className="upload-content">
             {isLoading ? (

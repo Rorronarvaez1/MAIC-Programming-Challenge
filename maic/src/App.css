@@ -6,15 +6,15 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
 }
 
 .app-header {
-  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
   color: white;
-  padding: 40px 20px;
+  padding: 48px 20px;
   text-align: left;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .header-content {
@@ -23,8 +23,8 @@
 }
 
 .app-header h1 {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: 800;
   margin: 0;
   color: white;
   letter-spacing: -0.5px;
@@ -59,25 +59,25 @@
 }
 
 .reset-btn {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s ease;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
 
 .reset-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
 }
 
 .reset-btn:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
 }
 
 .app-footer {

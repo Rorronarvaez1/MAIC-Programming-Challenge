@@ -9,16 +9,21 @@ function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [selectedCharts, setSelectedCharts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [currentStep, setCurrentStep] = useState('upload');
 
-  const handleFileUpload = async (file) => {
-    setUploadedFile(file);
+  const handleFileUpload = async (filesArray) => {
+    const files = Array.isArray(filesArray) ? filesArray : [filesArray];
+    
+    if (files.length === 0) {
+      alert('Por favor seleccione al menos un archivo');
+      return;
+    }
+    
     setIsLoading(true);
-    setCurrentStep('analyze');
 
     const formData = new FormData();
-    formData.append('file', file);
+    files.forEach((file) => {
+      formData.append('files', file);
+    });
 
     try {
       const response = await axios.post('http://localhost:5000/api/upload', formData, {
@@ -28,21 +33,17 @@ function App() {
       });
 
       setSuggestions(response.data.suggestions || []);
-      setCurrentStep('analyze');
     } catch (error) {
-      console.error('Error uploading file:', error);
-      alert('Error al analizar el archivo. Por favor intente nuevamente.');
-      setCurrentStep('upload');
+      console.error('Error uploading files:', error);
+      alert('Error al analizar los archivos. Por favor intente nuevamente.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleAddChart = (suggestion) => {
+  const handleAddChart = (suggestion, index) => {
     setSelectedCharts([...selectedCharts, suggestion]);
-    if (selectedCharts.length === 0) {
-      setCurrentStep('dashboard');
-    }
+    setSuggestions(suggestions.filter((_, i) => i !== index));
   };
 
   const handleRemoveChart = (index) => {
@@ -53,8 +54,6 @@ function App() {
   const handleStartOver = () => {
     setSuggestions([]);
     setSelectedCharts([]);
-    setUploadedFile(null);
-    setCurrentStep('upload');
   };
 
   return (
@@ -72,7 +71,7 @@ function App() {
             <FileUpload onUpload={handleFileUpload} isLoading={isLoading} />
           </section>
 
-          {suggestions.length > 0 && currentStep === 'analyze' && (
+          {suggestions.length > 0 && (
             <section className="section analysis-section">
               <AnalysisCards
                 suggestions={suggestions}
@@ -89,13 +88,6 @@ function App() {
           </section>
         </div>
 
-        {selectedCharts.length > 0 && (
-          <section className="action-buttons">
-            <button className="reset-btn" onClick={handleStartOver}>
-              Cargar nuevo archivo
-            </button>
-          </section>
-        )}
       </main>
     </div>
   );

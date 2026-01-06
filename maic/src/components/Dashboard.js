@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   BarChart, Bar, LineChart, Line, PieChart, Pie, ScatterChart, Scatter,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell
 } from 'recharts';
 import axios from 'axios';
 import '../styles/Dashboard.css';
@@ -18,13 +18,17 @@ export const Dashboard = ({ selectedCharts, onRemoveChart }) => {
         fetchChartData(chart, index);
       }
     });
-  }, [selectedCharts]);
+  }, [selectedCharts, chartDataMap]);
 
   const fetchChartData = async (chart, index) => {
     setLoadingCharts(prev => new Set([...prev, index]));
     try {
       const response = await axios.post('http://localhost:5000/api/chart-data', {
-        parameters: chart.parameters
+        parameters: {
+          x_axis: chart.parameters.x_axis,
+          y_axis: chart.parameters.y_axis,
+          aggregation: chart.parameters.aggregation || 'sum'
+        }
       });
       setChartDataMap(prev => ({
         ...prev,
@@ -32,6 +36,10 @@ export const Dashboard = ({ selectedCharts, onRemoveChart }) => {
       }));
     } catch (error) {
       console.error('Error fetching chart data:', error);
+      setChartDataMap(prev => ({
+        ...prev,
+        [index]: null
+      }));
     } finally {
       setLoadingCharts(prev => {
         const updated = new Set(prev);
@@ -50,9 +58,12 @@ export const Dashboard = ({ selectedCharts, onRemoveChart }) => {
       return <div className="chart-error">No hay datos disponibles</div>;
     }
 
+    const xKey = chart.parameters.x_axis;
+    const yKey = chart.parameters.y_axis;
+
     const commonProps = {
       data,
-      margin: { top: 5, right: 30, left: 0, bottom: 5 }
+      margin: { top: 5, right: 30, left: 20, bottom: 5 }
     };
 
     switch (chart.chart_type.toLowerCase()) {
@@ -60,139 +71,163 @@ export const Dashboard = ({ selectedCharts, onRemoveChart }) => {
         return (
           <ResponsiveContainer width="100%" height={300}>
             <BarChart {...commonProps}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey={chart.parameters.x_axis} />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey={chart.parameters.y_axis} fill="#3b82f6" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey={xKey} 
+                tick={{ fontSize: 12 }}
+                tickLine={{ stroke: '#9ca3af' }}
+              />
+              <YAxis 
+                tick={{ fontSize: 12 }}
+                tickLine={{ stroke: '#9ca3af' }}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  borderRadius: '8px', 
+                  border: 'none', 
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+                }}
+              />
+              <Bar 
+                dataKey={yKey} 
+                fill="#3b82f6" 
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         );
+      
       case 'line':
         return (
           <ResponsiveContainer width="100%" height={300}>
             <LineChart {...commonProps}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey={chart.parameters.x_axis} />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey={chart.parameters.y_axis} stroke="#3b82f6" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey={xKey}
+                tick={{ fontSize: 12 }}
+              />
+              <YAxis tick={{ fontSize: 12 }} />
+              <Tooltip 
+                contentStyle={{ 
+                  borderRadius: '8px', 
+                  border: 'none', 
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+                }}
+              />
+              <Line 
+                type="monotone" 
+                dataKey={yKey} 
+                stroke="#3b82f6" 
+                strokeWidth={2}
+                dot={{ fill: '#3b82f6', strokeWidth: 2 }}
+                activeDot={{ r: 6, fill: '#1d4ed8' }}
+              />
             </LineChart>
           </ResponsiveContainer>
         );
+      
       case 'pie':
         return (
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
                 data={data}
-                dataKey={chart.parameters.y_axis}
-                nameKey={chart.parameters.x_axis}
+                dataKey={yKey}
+                nameKey={xKey}
                 cx="50%"
                 cy="50%"
                 outerRadius={100}
-                label
+                innerRadius={40}
+                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                labelLine={{ stroke: '#9ca3af' }}
               >
                 {data.map((entry, i) => (
-                  <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
+                  <Cell 
+                    key={`cell-${i}`} 
+                    fill={COLORS[i % COLORS.length]}
+                    stroke="white"
+                    strokeWidth={2}
+                  />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip 
+                contentStyle={{ 
+                  borderRadius: '8px', 
+                  border: 'none', 
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         );
+      
       case 'scatter':
         return (
           <ResponsiveContainer width="100%" height={300}>
             <ScatterChart {...commonProps}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey={chart.parameters.x_axis} />
-              <YAxis />
-              <Tooltip />
-              <Scatter dataKey={chart.parameters.y_axis} fill="#3b82f6" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey={xKey} 
+                type="number"
+                name={xKey}
+                tick={{ fontSize: 12 }}
+              />
+              <YAxis 
+                dataKey={yKey}
+                type="number"
+                name={yKey}
+                tick={{ fontSize: 12 }}
+              />
+              <Tooltip 
+                cursor={{ strokeDasharray: '3 3' }}
+                contentStyle={{ 
+                  borderRadius: '8px', 
+                  border: 'none', 
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+                }}
+              />
+              <Scatter 
+                name="Datos" 
+                data={data} 
+                fill="#3b82f6"
+              />
             </ScatterChart>
           </ResponsiveContainer>
         );
+      
       default:
-        return <div className="chart-error">Tipo de gráfico no soportado</div>;
+        return <div className="chart-error">Tipo de gráfico no soportado: {chart.chart_type}</div>;
     }
   };
 
-  const hasCharts = selectedCharts.length > 0;
+  if (selectedCharts.length === 0) {
+    return (
+      <div className="empty-dashboard">
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-container">
-      <h2>Su panel</h2>
+      <h2>Gráficos Seleccionados</h2>
       <div className="charts-grid">
-        {hasCharts ? (
-          selectedCharts.map((chart, index) => (
-            <div key={index} className="chart-card">
-              <div className="chart-header">
-                <h3>{chart.title}</h3>
-                <button
-                  className="remove-btn"
-                  onClick={() => onRemoveChart(index)}
-                  title="Remover gráfico"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="chart-body">
-                {renderChart(chart, chartDataMap[index], index)}
-              </div>
-              <div className="chart-footer">
-                <p className="chart-insight">{chart.insight}</p>
-              </div>
+        {selectedCharts.map((chart, index) => (
+          <div key={index} className="chart-card">
+            <div className="chart-header">
+              <h3>{chart.title}</h3>
+              <button
+                className="remove-btn"
+                onClick={() => onRemoveChart(index)}
+                title="Remover gráfico"
+              >
+                ✕
+              </button>
             </div>
-          ))
-        ) : (
-          <>
-            <div className="chart-card placeholder-card">
-              <div className="chart-header placeholder-header">
-                <h3>Gráfico de ejemplo 1</h3>
-              </div>
-              <div className="chart-body placeholder-body">
-                <div className="placeholder-chart"></div>
-              </div>
-              <div className="chart-footer">
-                <p className="chart-insight">Selecciona gráficos de las sugerencias para visualizarlos aquí</p>
-              </div>
+            <div className="chart-body">
+              {renderChart(chart, chartDataMap[index], index)}
             </div>
-            <div className="chart-card placeholder-card">
-              <div className="chart-header placeholder-header">
-                <h3>Gráfico de ejemplo 2</h3>
-              </div>
-              <div className="chart-body placeholder-body">
-                <div className="placeholder-chart"></div>
-              </div>
-              <div className="chart-footer">
-                <p className="chart-insight">Los gráficos se mostrarán en tiempo real</p>
-              </div>
-            </div>
-            <div className="chart-card placeholder-card">
-              <div className="chart-header placeholder-header">
-                <h3>Gráfico de ejemplo 3</h3>
-              </div>
-              <div className="chart-body placeholder-body">
-                <div className="placeholder-chart"></div>
-              </div>
-              <div className="chart-footer">
-                <p className="chart-insight">Comienza cargando tu archivo de datos</p>
-              </div>
-            </div>
-            <div className="chart-card placeholder-card">
-              <div className="chart-header placeholder-header">
-                <h3>Gráfico de ejemplo 4</h3>
-              </div>
-              <div className="chart-body placeholder-body">
-                <div className="placeholder-chart"></div>
-              </div>
-              <div className="chart-footer">
-                <p className="chart-insight">Obtén insights automáticos de tus datos</p>
-              </div>
-            </div>
-          </>
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

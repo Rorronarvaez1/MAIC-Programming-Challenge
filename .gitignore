@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+backend/venv/
+
+# Environment
+.env
+
+# Logs & builds
+npm-debug.log*
+__pycache__/
+*.pyc
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+Test_Data/
