@@ -4,6 +4,7 @@ import { FileUpload } from './components/FileUpload';
 import { AnalysisCards } from './components/AnalysisCards';
 import { Dashboard } from './components/Dashboard';
 import './App.css';
+import API_URL from './config';
 
 function App() {
   const [suggestions, setSuggestions] = useState([]);
